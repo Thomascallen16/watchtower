@@ -15,7 +15,7 @@
 - [x] Add environment validation, security documentation, API documentation, and project setup documentation.
 - [x] Add automated unit, API, authorization, risk-engine, and event-creation tests.
 - [x] Run tests, type checks, production build, security review, and visual responsive checks.
-- [ ] Commit meaningful milestones and push the complete source code to the Watchtower GitHub repository.
+- [x] Commit meaningful milestones and push the complete source code to the Watchtower GitHub repository.
 - [ ] Create a final checkpoint for safe publishing and provide deployment guidance without exposing unconfigured integrations.
 - [x] Build live exposure-event detail views with note entry, resolution controls, and recommended-action workflows.
 - [x] Persist and expose configurable risk weights, contribution explanations, and risk-score history for authorized live records.
