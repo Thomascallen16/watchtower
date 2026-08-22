@@ -1,0 +1,21 @@
+# Project TODO
+
+- [x] Confirm the Watchtower project foundation and preserve any unrelated repository work.
+- [x] Document product scope, platform limitations, data provenance, and privacy principles.
+- [x] Model users, future organizations, assets, connected accounts, devices, applications, permissions, trackers, exposure events, evidence, risk assessments, risk-score history, alerts, notes, actions, audit logs, data sources, and integration token references.
+- [x] Apply the database migration and expose typed, authorized server procedures for core records.
+- [x] Implement authenticated onboarding that explains authorization requirements and platform limitations.
+- [x] Build a responsive, professional consumer dashboard for risk, assets, exposures, alerts, and recent changes.
+- [x] Build an isolated Demo Mode in which every simulated record displays exactly “DEMO DATA — NOT A LIVE SECURITY FINDING.”
+- [x] Implement immutable EXP identifiers, exposure-event creation, evidence classifications, source details, related records, notes, recommended actions, and resolution workflows.
+- [x] Implement a transparent configurable 0–100 rules-based risk engine with category scores, contributions, score history, and risk-reduction guidance.
+- [x] Build responsive Devices, Accounts, Apps & Permissions, Tracker Intelligence, Breaches & Exposure, Alerts, Integrations, Privacy Settings, and Account Management pages.
+- [x] Build an official-API and OAuth-ready integration framework without scraping private data or storing passwords.
+- [x] Implement server-side authorization, input validation, rate limiting, audit logging, token-reference safeguards, data export, and account deletion workflows.
+- [x] Add environment validation, security documentation, API documentation, and project setup documentation.
+- [x] Add automated unit, API, authorization, risk-engine, and event-creation tests.
+- [x] Run tests, type checks, production build, security review, and visual responsive checks.
+- [ ] Commit meaningful milestones and push the complete source code to the Watchtower GitHub repository.
+- [ ] Create a final checkpoint for safe publishing and provide deployment guidance without exposing unconfigured integrations.
+- [x] Build live exposure-event detail views with note entry, resolution controls, and recommended-action workflows.
+- [x] Persist and expose configurable risk weights, contribution explanations, and risk-score history for authorized live records.
