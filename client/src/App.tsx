@@ -4,13 +4,18 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
+import WatchtowerLanding from "./pages/WatchtowerLanding";
+import Onboarding from "./pages/Onboarding";
+import WatchtowerApp from "./pages/WatchtowerApp";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
+      <Route path={"/"} component={WatchtowerLanding} />
+      <Route path={"/onboarding"} component={Onboarding} />
+      <Route path={"/app/:rest*"} component={WatchtowerApp} />
+      <Route path={"/app"} component={WatchtowerApp} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
