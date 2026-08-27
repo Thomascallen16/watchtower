@@ -1,8 +1,16 @@
 # Watchtower
 
-> **Know what’s connected. Know what needs attention.**
+> **Know what’s connected. Know what needs attention. Verify the signal.**
 
-Watchtower is a consent-based privacy exposure intelligence MVP. It provides a consumer-friendly dashboard, a source-aware Digital Exposure Timeline, and a transparent rules-based risk score. The product is intentionally designed to distinguish verified data, detected indicators, inferred assessments, user-reported information, and items that require investigation.
+Watchtower is a consent-based privacy exposure intelligence MVP built around the same accountability architecture used across the ecosystem: source traceability, evidence provenance, transparent assessment, visible uncertainty, and user verification.
+
+## Accountability Core
+
+Watchtower does not ask users to trust an opaque risk score or an unsupported claim. It separates verified data, detected indicators, inferred assessments, user-reported information, conflicts, and unknowns. See [ACCOUNTABILITY_CORE.md](ACCOUNTABILITY_CORE.md).
+
+The canonical chain is:
+
+**Question → Authorized Source → Observation → Evidence → Assessment → Unknowns → Verification**
 
 ## Privacy boundary
 
@@ -30,7 +38,7 @@ Sensitive provider material is not stored in the relational schema. Future provi
 
 ## Local development
 
-Run the following commands in the project directory.
+Run:
 
 ```bash
 pnpm test
@@ -38,12 +46,6 @@ pnpm check
 pnpm build
 ```
 
-The managed project supplies its own authentication, database, and platform configuration. Configure any future third-party integration key using the project’s secret-management interface rather than committing `.env` files. The initially reserved optional integration values are `HIBP_API_KEY`, `TRACKER_INTELLIGENCE_API_KEY`, and `TOKEN_REFERENCE_KEY_VERSION`; no integration is treated as live until its official authorization flow and credentials are properly configured.
-
-## API surface
-
-Watchtower uses typed RPC procedures under `/api/trpc`. See [API.md](./API.md) for the currently implemented contracts. See [SECURITY.md](./SECURITY.md) for the security model and deployment conditions.
-
 ## Known MVP limits
 
-The app deliberately ships with a separate static demonstration workspace, not fabricated live findings. Official provider connections, long-running synchronization, production key custody, provider-specific revocation, fulfillment of export/deletion requests, and shared rate-limit storage remain integration-ready workflows that require provider credentials, a deployment-specific operations review, and the relevant official API terms.
+The app deliberately ships with a separate static demonstration workspace, not fabricated live findings. Official provider connections, long-running synchronization, production key custody, provider-specific revocation, fulfillment of export/deletion requests, and shared rate-limit storage remain integration-ready workflows requiring provider credentials, deployment-specific operations review, and applicable official API terms.
