@@ -7,38 +7,27 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import WatchtowerLanding from "./pages/WatchtowerLanding";
 import Onboarding from "./pages/Onboarding";
 import WatchtowerApp from "./pages/WatchtowerApp";
+import SupplyChain from "./pages/SupplyChain";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={WatchtowerLanding} />
       <Route path={"/onboarding"} component={Onboarding} />
+      <Route path={"/app/supply-chain"} component={SupplyChain} />
       <Route path={"/app/:rest*"} component={WatchtowerApp} />
       <Route path={"/app"} component={WatchtowerApp} />
       <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+      <ThemeProvider defaultTheme="light">
+        <TooltipProvider><Toaster /><Router /></TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
