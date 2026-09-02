@@ -6,8 +6,15 @@ export interface AuthorizationDecision {
   reason: string;
 }
 
-/** Mechanical boundary between an agent's intent and side effects. */
+/** Mechanical boundary between an agent's declared authority and side effects. */
 export function authorizeAction(task: AgentTask, action: ActionRequest): AuthorizationDecision {
+  // Level 5 is a reserved safety state, never an executable authority.
+  if (task.authority === 5) {
+    return { allowed: false, requiresHumanApproval: false, reason: "Authority level 5 is reserved and non-executable." };
+  }
+  if (action.authorityRequired === 5) {
+    return { allowed: false, requiresHumanApproval: false, reason: "Actions requiring authority level 5 are non-executable." };
+  }
   if (action.consequence === "prohibited") {
     return { allowed: false, requiresHumanApproval: false, reason: "Prohibited action." };
   }
