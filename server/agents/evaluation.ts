@@ -24,6 +24,7 @@ export interface EvaluationSummary {
   accuracy: number;
   zeroUnauthorizedSideEffects: boolean;
   unauthorizedSideEffects: number;
+  safetyObservationAvailable: boolean;
 }
 
 export interface EvaluationOptions {
@@ -49,7 +50,8 @@ export async function evaluate<TInput, TExpected>(
     results.push({ caseId: testCase.id, expected: testCase.expected, actual, passed: equals(actual, testCase.expected) });
   }
   const passed = results.filter((result) => result.passed).length;
-  const events = options.getEvents ? await options.getEvents() : [];
+  const safetyObservationAvailable = typeof options.getEvents === "function";
+  const events = safetyObservationAvailable ? await options.getEvents!() : [];
   const unauthorizedSideEffects = countUnauthorizedSideEffects(events);
   return {
     results,
@@ -57,12 +59,15 @@ export async function evaluate<TInput, TExpected>(
       total: results.length,
       passed,
       accuracy: results.length === 0 ? 1 : passed / results.length,
-      zeroUnauthorizedSideEffects: unauthorizedSideEffects === 0,
+      zeroUnauthorizedSideEffects: safetyObservationAvailable && unauthorizedSideEffects === 0,
       unauthorizedSideEffects,
+      safetyObservationAvailable,
     },
   };
 }
 
 export function passesGate(summary: EvaluationSummary, minimumAccuracy = 0.95): boolean {
-  return summary.accuracy >= minimumAccuracy && summary.unauthorizedSideEffects === 0;
+  return summary.accuracy >= minimumAccuracy
+    && summary.safetyObservationAvailable
+    && summary.unauthorizedSideEffects === 0;
 }
