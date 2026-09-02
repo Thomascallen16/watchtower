@@ -16,8 +16,17 @@ describe("Watchtower evidence-native agent kernel", () => {
     expect(decision.requiresHumanApproval).toBe(true);
   });
 
-  it("hard-denies prohibited actions", () => {
-    const decision = authorizeAction({ ...baseTask, authority: 5 }, { name: "delete-evidence", authorityRequired: 0, consequence: "prohibited", requiresHumanApproval: false });
+  it("hard-denies prohibited actions and authority level 5", () => {
+    const prohibited = authorizeAction({ ...baseTask, authority: 4 }, { name: "delete-evidence", authorityRequired: 0, consequence: "prohibited", requiresHumanApproval: false });
+    expect(prohibited.allowed).toBe(false);
+
+    const reserved = authorizeAction({ ...baseTask, authority: 5 }, { name: "observe", authorityRequired: 0, consequence: "none", requiresHumanApproval: false });
+    expect(reserved.allowed).toBe(false);
+    expect(reserved.requiresHumanApproval).toBe(false);
+  });
+
+  it("rejects actions that require reserved authority level 5", () => {
+    const decision = authorizeAction(baseTask, { name: "reserved-action", authorityRequired: 5, consequence: "none", requiresHumanApproval: false });
     expect(decision.allowed).toBe(false);
   });
 
