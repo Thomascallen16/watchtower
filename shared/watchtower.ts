@@ -4,7 +4,7 @@ export const DATA_MODES = ["live", "demo"] as const;
 export const EVIDENCE_CLASSIFICATIONS = ["verified", "detected", "user_reported", "inferred", "needs_investigation"] as const;
 export const SEVERITIES = ["low", "medium", "high", "critical"] as const;
 export const EVENT_STATUSES = ["investigate", "review", "resolved", "dismissed"] as const;
-export const RISK_CATEGORIES = ["devices", "accounts", "permissions", "trackers", "breaches", "integrations"] as const;
+export const RISK_CATEGORIES = ["devices", "accounts", "permissions", "trackers", "breaches", "integrations", "supply_chain"] as const;
 
 export type DataMode = (typeof DATA_MODES)[number];
 export type EvidenceClassification = (typeof EVIDENCE_CLASSIFICATIONS)[number];
