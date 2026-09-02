@@ -4,7 +4,7 @@ const root = process.cwd();
 const ignored = new Set(['.git', 'node_modules', 'dist', 'coverage']);
 const textFile = /\.(md|mdx|txt|yml|yaml|json|toml|ini|cfg|sh|bash|ps1)$/i;
 const agentFile = /(^|\/)(AGENTS\.md|CLAUDE\.md|GEMINI\.md|llms\.txt|llms-full\.txt)$/i;
-const install = /(^|[\s`])(?:npm\s+(?:install|i)|npm\s+exec|npx(?:\s|$)|pnpm\s+(?:add|install|dlx)|yarn\s+(?:add|install|dlx)|pip(?:3)?\s+install|pipx\s+install|(?:curl|wget)\b[^\n|]*\|\s*(?:sh|bash))/im;
+const install = /(?:^|[;&|]\s*|\b(?:run|execute|use)\s+)(?:npm\s+(?:install|i|exec)|npx(?:\s|$)|pnpm\s+(?:add|install|dlx)|yarn\s+(?:add|install|dlx)|pip(?:3)?\s+install|pipx\s+install|(?:curl|wget)\b[^\n|]*\|\s*(?:sh|bash))/im;
 const findings = [];
 async function walk(dir) {
   for (const entry of await readdir(dir, { withFileTypes: true })) {
