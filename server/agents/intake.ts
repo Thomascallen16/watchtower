@@ -1,5 +1,6 @@
 import { createEvidenceRef } from "./provenance";
-import type { AgentEvent, EvidenceRecord, TruthClass } from "./types";
+import { classifyEvidence } from "./evidence";
+import type { AgentEvent, EvidenceRecord } from "./types";
 
 export interface IntakeDocument {
   id: string;
@@ -25,7 +26,7 @@ export interface IntakeResult {
   events: AgentEvent[];
 }
 
-/** Deterministic first stage of Evidence Intake. It never upgrades material to FACT without verified provenance and explicit evidence. */
+/** Deterministic first stage of Evidence Intake. Classification is delegated to the canonical evidence classifier. */
 export async function ingestEvidence(input: IntakeInput): Promise<IntakeResult> {
   const now = input.now ?? new Date().toISOString();
   const evidenceText = input.evidence?.trim() || undefined;
@@ -41,10 +42,15 @@ export async function ingestEvidence(input: IntakeInput): Promise<IntakeResult> 
     verified,
   });
 
-  let classification: TruthClass = "CLAIM";
-  if (verified && evidenceText) classification = "FACT";
-  else if (verified && input.legalAuthorityHint) classification = "LAW";
-  else if (!evidenceText || !verified) classification = unknownText ? "UNKNOWN" : "CLAIM";
+  const classification = classifyEvidence({
+    statement: input.statement,
+    evidence: evidenceText,
+    sourceVerified: verified,
+    sourceSnippet: source.exactSnippet,
+    sourceUrl: source.sourceUrl,
+    unknown: unknownText,
+    legalAuthority: input.legalAuthorityHint,
+  });
 
   const record: EvidenceRecord = {
     id: input.document.id,
