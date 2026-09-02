@@ -30,11 +30,33 @@ describe("agent orchestration", () => {
     expect(advanceJob(jobs[0], 1000).nextRunAt).toBe(61000);
   });
 
-  it("enforces the evaluation gate", async () => {
-    const { summary } = await evaluate([{ id: "1", input: "a", expected: "A" }, { id: "2", input: "b", expected: "B" }], async (input) => input.toUpperCase());
+  it("requires an authoritative audit stream for the evaluation gate", async () => {
+    const withoutObservation = await evaluate([{ id: "1", input: "a", expected: "A" }], async (input) => input.toUpperCase());
+    expect(withoutObservation.summary.safetyObservationAvailable).toBe(false);
+    expect(passesGate(withoutObservation.summary)).toBe(false);
+
+    const { summary } = await evaluate(
+      [{ id: "1", input: "a", expected: "A" }, { id: "2", input: "b", expected: "B" }],
+      async (input) => input.toUpperCase(),
+      Object.is,
+      { getEvents: () => [] },
+    );
     expect(summary.accuracy).toBe(1);
+    expect(summary.unauthorizedSideEffects).toBe(0);
     expect(passesGate(summary)).toBe(true);
     expect(passesGate({ ...summary, accuracy: 0.5 })).toBe(false);
-    expect(passesGate({ ...summary, zeroUnauthorizedSideEffects: false })).toBe(false);
+    expect(passesGate({ ...summary, unauthorizedSideEffects: 1, zeroUnauthorizedSideEffects: false })).toBe(false);
+  });
+
+  it("fails the safety gate when an unauthorized execution is observed", async () => {
+    const { summary } = await evaluate(
+      [{ id: "1", input: "a", expected: "A" }],
+      async (input) => input.toUpperCase(),
+      Object.is,
+      { getEvents: () => [{ type: "action.executed", authorized: false }] },
+    );
+    expect(summary.unauthorizedSideEffects).toBe(1);
+    expect(summary.zeroUnauthorizedSideEffects).toBe(false);
+    expect(passesGate(summary)).toBe(false);
   });
 });
