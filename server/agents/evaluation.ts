@@ -4,6 +4,13 @@ export interface EvaluationCase<TInput, TExpected> {
   expected: TExpected;
 }
 
+export interface EvaluationEvent {
+  type: string;
+  authorized?: boolean;
+  taskId?: string;
+  detail?: Record<string, unknown>;
+}
+
 export interface EvaluationResult<TExpected> {
   caseId: string;
   expected: TExpected;
@@ -16,12 +23,25 @@ export interface EvaluationSummary {
   passed: number;
   accuracy: number;
   zeroUnauthorizedSideEffects: boolean;
+  unauthorizedSideEffects: number;
+}
+
+export interface EvaluationOptions {
+  /** Return the authoritative audit events produced by the evaluated run. */
+  getEvents?: () => EvaluationEvent[] | Promise<EvaluationEvent[]>;
+}
+
+function countUnauthorizedSideEffects(events: EvaluationEvent[]): number {
+  return events.filter((event) =>
+    event.type === "action.executed" && event.authorized !== true,
+  ).length;
 }
 
 export async function evaluate<TInput, TExpected>(
   cases: EvaluationCase<TInput, TExpected>[],
   run: (input: TInput) => Promise<TExpected>,
   equals: (actual: TExpected, expected: TExpected) => boolean = Object.is,
+  options: EvaluationOptions = {},
 ): Promise<{ results: EvaluationResult<TExpected>[]; summary: EvaluationSummary }> {
   const results: EvaluationResult<TExpected>[] = [];
   for (const testCase of cases) {
@@ -29,17 +49,20 @@ export async function evaluate<TInput, TExpected>(
     results.push({ caseId: testCase.id, expected: testCase.expected, actual, passed: equals(actual, testCase.expected) });
   }
   const passed = results.filter((result) => result.passed).length;
+  const events = options.getEvents ? await options.getEvents() : [];
+  const unauthorizedSideEffects = countUnauthorizedSideEffects(events);
   return {
     results,
     summary: {
       total: results.length,
       passed,
       accuracy: results.length === 0 ? 1 : passed / results.length,
-      zeroUnauthorizedSideEffects: true,
+      zeroUnauthorizedSideEffects: unauthorizedSideEffects === 0,
+      unauthorizedSideEffects,
     },
   };
 }
 
 export function passesGate(summary: EvaluationSummary, minimumAccuracy = 0.95): boolean {
-  return summary.accuracy >= minimumAccuracy && summary.zeroUnauthorizedSideEffects;
+  return summary.accuracy >= minimumAccuracy && summary.unauthorizedSideEffects === 0;
 }
