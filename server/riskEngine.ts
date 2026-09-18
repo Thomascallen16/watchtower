@@ -29,9 +29,10 @@ const categoryGuidance: Record<RiskCategory, string> = {
   trackers: "Review the tracker relationship and use the service’s supported privacy controls.",
   breaches: "Change exposed credentials, enable MFA, and monitor the affected account.",
   integrations: "Review the integration scopes and disconnect it if the connection is no longer necessary.",
+  supply_chain: "Review the repository evidence and follow the documented remediation or consolidation path.",
 };
 
-const categories: RiskCategory[] = ["devices", "accounts", "permissions", "trackers", "breaches", "integrations"];
+const categories: RiskCategory[] = ["devices", "accounts", "permissions", "trackers", "breaches", "integrations", "supply_chain"];
 
 function riskBand(total: number): RiskAssessment["band"] {
   if (total <= 20) return "low";
