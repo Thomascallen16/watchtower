@@ -60,6 +60,6 @@ export class ApprovalQueue {
   }
 
   pending(): ApprovalRequest[] {
-    return [...this.requests.values()].filter((request) => request.status === "pending");
+    return Array.from(this.requests.values()).filter((request) => request.status === "pending");
   }
 }
