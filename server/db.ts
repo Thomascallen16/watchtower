@@ -156,7 +156,7 @@ export async function listExposuresForUser(userId: number, dataMode: DataMode) {
 }
 
 export async function createExposureForUser(userId: number, input: {
-  eventType: string; category: "devices" | "accounts" | "permissions" | "trackers" | "breaches" | "integrations"; severity: "low" | "medium" | "high" | "critical"; title: string; description: string; evidenceClassification: "verified" | "detected" | "user_reported" | "inferred" | "needs_investigation"; sourceName: string; sourceUrl?: string; relatedKind?: string; relatedRecordId?: string; riskImpact: number; recommendedActions: string[]; firstDetectedAt?: Date;
+  eventType: string; category: "devices" | "accounts" | "permissions" | "trackers" | "breaches" | "integrations" | "supply_chain"; severity: "low" | "medium" | "high" | "critical"; title: string; description: string; evidenceClassification: "verified" | "detected" | "user_reported" | "inferred" | "needs_investigation"; sourceName: string; sourceUrl?: string; relatedKind?: string; relatedRecordId?: string; riskImpact: number; recommendedActions: string[]; firstDetectedAt?: Date;
 }) {
   const db = await getDb();
   if (!db) throw new Error("Database is unavailable");

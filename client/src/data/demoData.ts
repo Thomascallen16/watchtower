@@ -3,7 +3,7 @@ import type { RiskAssessment } from "../../../server/riskEngine";
 export type DemoExposure = {
   id: string;
   type: string;
-  category: "devices" | "accounts" | "permissions" | "trackers" | "breaches" | "integrations";
+  category: "devices" | "accounts" | "permissions" | "trackers" | "breaches" | "integrations" | "supply_chain";
   severity: "low" | "medium" | "high" | "critical";
   status: "investigate" | "review" | "resolved" | "dismissed";
   title: string;
@@ -26,7 +26,7 @@ export const demoExposures: DemoExposure[] = [
 export const demoRisk: RiskAssessment = {
   total: 72,
   band: "high",
-  categoryScores: { devices: 15, accounts: 0, permissions: 19, trackers: 8, breaches: 30, integrations: 0 },
+  categoryScores: { devices: 15, accounts: 0, permissions: 19, trackers: 8, breaches: 30, integrations: 0, supply_chain: 0 },
   contributions: demoExposures.map(event => ({ exposureId: event.id, category: event.category, severity: event.severity, status: event.status, riskImpact: event.impact, title: event.title, contribution: event.impact, reductionGuidance: event.action })),
   methodology: "Simulated only: each open finding is assigned a visible rules-based contribution. This demo score never represents a live security finding.",
 };
