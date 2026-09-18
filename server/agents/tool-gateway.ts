@@ -21,7 +21,7 @@ export class ToolGateway {
   }
 
   describe(): Array<Pick<ToolDefinition, "name" | "description" | "action">> {
-    return [...this.tools.values()].map(({ name, description, action }) => ({ name, description, action }));
+    return Array.from(this.tools.values()).map(({ name, description, action }) => ({ name, description, action }));
   }
 
   async call<TInput, TOutput>(task: AgentTask, name: string, input: TInput): Promise<TOutput> {
