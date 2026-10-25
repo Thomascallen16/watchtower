@@ -6,6 +6,7 @@ export interface ClassificationInput {
   sourceVerified: boolean;
   sourceSnippet?: string;
   sourceUrl?: string;
+  sourceCitation?: string;
   unknown?: string;
   legalAuthority?: boolean;
 }
@@ -13,7 +14,7 @@ export interface ClassificationInput {
 /** Conservative classifier: absence of provenance never becomes FACT. */
 export function classifyEvidence(input: ClassificationInput): TruthClass {
   const hasEvidence = Boolean(input.evidence?.trim());
-  const hasSource = input.sourceVerified && Boolean(input.sourceSnippet?.trim()) && Boolean(input.sourceUrl?.trim());
+  const hasSource = input.sourceVerified && Boolean(input.sourceSnippet?.trim()) && Boolean(input.sourceUrl?.trim() || input.sourceCitation?.trim());
   if (input.unknown?.trim() && !hasEvidence) return "UNKNOWN";
   if (input.legalAuthority && hasSource) return "LAW";
   if (hasSource && hasEvidence) return "FACT";
