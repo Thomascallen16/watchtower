@@ -21,7 +21,7 @@ export function authorizeAction(task: AgentTask, action: ActionRequest): Authori
   if (task.authority < action.authorityRequired) {
     return {
       allowed: false,
-      requiresHumanApproval: action.requiresHumanApproval,
+      requiresHumanApproval: false,
       reason: `Task authority ${task.authority} is below required authority ${action.authorityRequired}.`,
     };
   }
