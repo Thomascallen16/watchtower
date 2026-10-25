@@ -10,7 +10,7 @@ describe("agent orchestration", () => {
     const result = await registry.run("echo", "ok", { id: "task-1", agentId: "echo", objective: "test", authority: 1, createdAt: "2026-09-02T00:00:00Z", requiresHumanApproval: false });
     expect(result.output).toBe("ok");
     expect(result.events).toHaveLength(1);
-    expect(() => registry.run("missing", "x", { id: "task-2", agentId: "missing", objective: "test", authority: 0, createdAt: "2026-09-02T00:00:00Z", requiresHumanApproval: false })).toThrow("Unknown agent");
+    await expect(registry.run("missing", "x", { id: "task-2", agentId: "missing", objective: "test", authority: 0, createdAt: "2026-09-02T00:00:00Z", requiresHumanApproval: false })).rejects.toThrow("Unknown agent");
   });
 
   it("finds only explicit same-subject value conflicts", () => {

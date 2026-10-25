@@ -48,6 +48,7 @@ export async function ingestEvidence(input: IntakeInput): Promise<IntakeResult> 
     sourceVerified: verified,
     sourceSnippet: source.exactSnippet,
     sourceUrl: source.sourceUrl,
+    sourceCitation: source.sourceCitation,
     unknown: unknownText,
     legalAuthority: input.legalAuthorityHint,
   });
