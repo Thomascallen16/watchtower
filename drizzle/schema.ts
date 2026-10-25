@@ -29,7 +29,7 @@ const dataModeEnum = mysqlEnum("dataMode", ["live", "demo"]);
 const evidenceEnum = mysqlEnum("evidenceClassification", ["verified", "detected", "user_reported", "inferred", "needs_investigation"]);
 const severityEnum = mysqlEnum("severity", ["low", "medium", "high", "critical"]);
 const eventStatusEnum = mysqlEnum("eventStatus", ["investigate", "review", "resolved", "dismissed"]);
-const riskCategoryEnum = mysqlEnum("riskCategory", ["devices", "accounts", "permissions", "trackers", "breaches", "integrations"]);
+const riskCategoryEnum = mysqlEnum("riskCategory", ["devices", "accounts", "permissions", "trackers", "breaches", "integrations", "supply_chain"]);
 
 export const organizations = mysqlTable("organizations", {
   id: int("id").autoincrement().primaryKey(),
